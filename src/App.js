@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/blocks/Header";
 import Movies from "./components/sections/Movies/Movies";
@@ -8,12 +8,12 @@ const App = () => {
   return (
     <div className="bg-slate-200 min-h-full">
       <div className="container">
-        <BrowserRouter>
+        <BrowserRouter basename="/react-movie-app/">
           <Header />
           <Routes>
-            <Route path="/" element={<Movies />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/favourite" element={<Favourite />} />
+            <Route path="/" exet element={<Movies />} />
+            <Route path="/search" exet element={<Search />} />
+            <Route path="/favourite" exet element={<Favourite />} />
           </Routes>
         </BrowserRouter>
       </div>

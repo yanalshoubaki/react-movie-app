@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import MovieDetails from "../../blocks/MovieDetails";
 import api from "../../../services/api";

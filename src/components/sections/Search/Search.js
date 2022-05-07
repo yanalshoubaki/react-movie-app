@@ -3,7 +3,7 @@ import * as Unicons from "@iconscout/react-unicons";
 
 import MovieDetails from "../../blocks/MovieDetails";
 import api from "../../../services/api";
-const Search = (props) => {
+const Search = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState(null);

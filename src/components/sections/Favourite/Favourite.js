@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MovieDetails from "../../blocks/MovieDetails";
-const Favourite = (props) => {
+const Favourite = () => {
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const getMovies = async () => {
     const fav = localStorage.getItem("fav");
     const favList = JSON.parse(fav);
     setMovies(favList);
-    setLoading(false);
   };
 
   useEffect(() => {
