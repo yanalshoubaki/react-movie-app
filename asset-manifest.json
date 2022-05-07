@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/movie-app/static/css/main.a8306940.css",
-    "main.js": "/movie-app/static/js/main.d5e8f5d3.js",
-    "index.html": "/movie-app/index.html"
+    "main.css": "/react-movie-app/static/css/main.a8306940.css",
+    "main.js": "/react-movie-app/static/js/main.d5e8f5d3.js",
+    "index.html": "/react-movie-app/index.html"
   },
   "entrypoints": [
     "static/css/main.a8306940.css",
