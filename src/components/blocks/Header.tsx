@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <nav className="w-full bg-slate-500  px-6 py-4 shadow-md">
@@ -10,10 +10,16 @@ const Header = () => {
           </h1>
         </div>
         <div className="flex space-x-10 items-center">
-          <Link className="text-white capitalize font-bold mr-4" to="/">
+          <Link
+            className="text-white capitalize font-bold mr-4"
+            to="/"
+          >
             home
           </Link>
-          <Link className="text-white capitalize font-bold mr-4" to="/search">
+          <Link
+            className="text-white capitalize font-bold mr-4"
+            to="/search"
+          >
             search
           </Link>
           <Link

@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from "react";
-import MovieDetails from "../../blocks/MovieDetails";
-import api from "../../../services/api";
-import _ from "lodash";
-const Movies = (props) => {
-  const [movies, setMovies] = useState([]);
+import React, { useState, useEffect } from 'react';
+import MovieDetails from '../../blocks/MovieDetails';
+import _, { map } from 'lodash';
+import { useQuery } from 'react-query';
+import useClient from '../../../providers/hooks/useClient';
+import { MovieResponse } from '../../../providers/types';
+const Movies = () => {
+  const client = useClient();
+  const [movies, setMovies] = useState<MovieResponse['results']>([]);
   const [loading, setLoading] = useState(false);
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<
+    Pick<MovieResponse, 'page' | 'total_pages' | 'total_results'>
+  >({
     page: 1,
+    total_pages: 0,
+    total_results: 0,
   });
-  const getMovies = async () => {
-    setLoading(true);
-    setTimeout(async () => {
-      const response = await api.get("movie/now_playing", {
+  const getMoviesQuery = useQuery({
+    queryKey: ['movies', settings.page],
+    queryFn: async () => {
+      const data = await client.get<MovieResponse>('movie/now_playing', {
         params: {
-          api_key: process.env.REACT_APP_API_KEY,
+          api_key: import.meta.env.VITE_APP_API_KEY,
           page: settings.page,
         },
       });
-      const data = response.data;
+      return data.data;
+    },
+    onSuccess: (data) => {
       const moviesList = data.results;
       setMovies(moviesList);
       setSettings({
@@ -25,15 +34,10 @@ const Movies = (props) => {
         page: data.page,
         total_pages: data.total_pages,
         total_results: data.total_results,
-        data_length: data.results.length,
       });
       setLoading(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    getMovies();
-  }, [settings.page]);
+    },
+  });
 
   return (
     <div className="movies-block  min-h-screen">
@@ -45,8 +49,13 @@ const Movies = (props) => {
           {!loading ? (
             movies &&
             movies.length > 0 &&
-            movies.map((movie, index) => {
-              return <MovieDetails data={{ movie }} key={index} />;
+            map(movies, (movie, index) => {
+              return (
+                <MovieDetails
+                  data={{ movie }}
+                  key={index}
+                />
+              );
             })
           ) : (
             <div className="flex justify-center align-middle">

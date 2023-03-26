@@ -1,14 +1,22 @@
-import * as Unicons from "@iconscout/react-unicons";
-import { useState, useEffect } from "react";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { MovieResult } from '../../providers/types';
+import { filter } from 'lodash';
 
-const MovieDetails = ({ data: { movie } }) => {
-  const baseImageURL = "https://image.tmdb.org/t/p/original";
+type MovieDetailsProps = {
+  data: {
+    movie: MovieResult;
+  };
+};
+
+const MovieDetails = ({ data: { movie } }: MovieDetailsProps) => {
+  const baseImageURL = 'https://image.tmdb.org/t/p/original';
   const [isFav, setIsFav] = useState(false);
   const checkIfInFav = () => {
-    const fav = localStorage.getItem("fav");
+    const fav = localStorage.getItem('fav');
     if (fav) {
       const favMovies = JSON.parse(fav);
-      const check = favMovies.filter((row) => row.id == movie.id);
+      const check = filter(favMovies, (row) => row.id == movie.id);
       if (check.length > 0) {
         setIsFav(true);
       }
@@ -18,22 +26,22 @@ const MovieDetails = ({ data: { movie } }) => {
   };
 
   const addToFav = () => {
-    const fav = localStorage.getItem("fav");
+    const fav = localStorage.getItem('fav');
     if (fav) {
-      const favMovies = JSON.parse(fav);
-      const check = favMovies.filter((row) => row.id == movie.id);
+      const favMovies: MovieResult[] = JSON.parse(fav);
+      const check = filter(favMovies, (row) => row.id == movie.id);
       if (check.length > 0) {
-        const movies = favMovies.filter((row) => row.id != movie.id);
-        localStorage.setItem("fav", JSON.stringify(movies));
+        const movies = filter(favMovies, (row) => row.id != movie.id);
+        localStorage.setItem('fav', JSON.stringify(movies));
         setIsFav(false);
       } else {
         favMovies.push(movie);
-        localStorage.setItem("fav", JSON.stringify(favMovies));
+        localStorage.setItem('fav', JSON.stringify(favMovies));
         setIsFav(true);
       }
     } else {
       const movies = [movie];
-      localStorage.setItem("fav", JSON.stringify(movies));
+      localStorage.setItem('fav', JSON.stringify(movies));
       setIsFav(true);
     }
   };
@@ -50,11 +58,24 @@ const MovieDetails = ({ data: { movie } }) => {
             onClick={() => addToFav()}
             className={`addToFav absolute top-4 cursor-pointer right-4 rounded-full p-2 transition ${
               isFav
-                ? "bg-red-500 text-white border-white border"
-                : "bg-slate-100 text-slate-600"
+                ? 'bg-red-500 text-white border-white border'
+                : 'bg-slate-100 text-slate-600'
             }`}
           >
-            <Unicons.UilHeart />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              />
+            </svg>
           </span>
           <img
             className="rounded-3xl shadow-lg"
@@ -68,10 +89,10 @@ const MovieDetails = ({ data: { movie } }) => {
             <div
               className={`${
                 movie.vote_average > 7
-                  ? "bg-green-400 text-white"
+                  ? 'bg-green-400 text-white'
                   : movie.vote_average < 6
-                  ? "bg-red-400"
-                  : "bg-yellow-400"
+                  ? 'bg-red-400'
+                  : 'bg-yellow-400'
               } font-bold rounded-xl p-2`}
             >
               {movie.vote_average}

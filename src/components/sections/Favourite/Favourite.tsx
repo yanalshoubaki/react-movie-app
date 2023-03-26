@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import MovieDetails from "../../blocks/MovieDetails";
+import React, { useState, useEffect } from 'react';
+import MovieDetails from '../../blocks/MovieDetails';
+import { MovieResponse, MovieResult } from '../../../providers/types';
+import { map } from 'lodash';
 const Favourite = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<MovieResponse['results']>([]);
 
   const getMovies = async () => {
-    const fav = localStorage.getItem("fav");
-    const favList = JSON.parse(fav);
+    const fav = localStorage.getItem('fav') as string;
+    const favList: MovieResult[] = JSON.parse(fav);
     setMovies(favList);
   };
 
@@ -22,8 +24,13 @@ const Favourite = () => {
         <div className="grid justify-center md:grid-cols-2 lg:grid-cols-2 gap-5 sm:grid-cols-1 lg:gap-7 py-10">
           {movies &&
             movies.length > 0 &&
-            movies.map((movie, index) => {
-              return <MovieDetails data={{ movie }} key={index} />;
+            map(movies, (movie, index) => {
+              return (
+                <MovieDetails
+                  data={{ movie }}
+                  key={index}
+                />
+              );
             })}
         </div>
       </div>
